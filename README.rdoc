@@ -47,7 +47,7 @@ All options except ignore is mandatory, but it's highly suggested that ignore is
 
 == Notice
 
-None of the creators of either ImgLog or Cinch takes any responsibility about how this plugin is used.
+Neither the creators of ImgLog nor Cinch takes any responsibility about how this plugin/site is used.
 
 == Copyright
 
