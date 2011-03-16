@@ -1,0 +1,54 @@
+= cinch-imglog
+
+A Cinch plugin to be used together with ImgLog to setup image logging for IRC channels.
+
+cURL and ImageMagicks dev files needs to be installed on the system to be able to install the needed gems. This would be libcurl4-gnutls-dev and libmagickcore2 on Debian/Ubuntu systems.
+
+The gem can be installed with:
+
+  gem install cinch-imglog
+
+== Usage
+
+  require 'cinch'
+  require 'cinch/plugins/imglog'
+
+  bot = Cinch::Bot.new do
+    configure do |c|
+      c.nick = "ImgLog"
+      c.server = "irc.freenode.org"
+      c.channels = ["#cinchbots"]
+      c.plugins.plugins = [Cinch::Plugins::ImgLog]
+      c.plugins.options = {
+        Cinch::Plugins::ImgLog = {
+          "network" => "freenode",
+          "service" => "http:/127.0.0.1/image/add",
+          "save_dir" => "/path/to/save_dir",
+          "key" => "SECRET",
+          "ignore" => [
+            "example.com"
+          ]
+        }
+      }
+    end
+  end
+  
+  bot.start
+  
+=== Options
+
+All options except ignore is mandatory, but it's highly suggested that ignore is used.
+
+* network => The network "name", the name that is stored for the networks table
+* service => The location to the /image/add script.
+* save_dir => The save location for the images.
+* key => A key to know that it's the correct bot that sends new images to store in the database
+* ignore => Sites to ignore, usually a good idea to ignore the your own site
+
+== Notice
+
+None of the creators of either ImgLog or Cinch takes any responsibility about how this plugin is used.
+
+== Copyright
+
+Copyright (c) 2011 Victor Bergöö. See LICENSE for details.
