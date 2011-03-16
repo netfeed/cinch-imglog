@@ -24,7 +24,7 @@ The gem can be installed with:
           "network" => "freenode",
           "service" => "http:/127.0.0.1/image/add",
           "save_dir" => "/path/to/save_dir",
-          "key" => "SECRET",
+          "handshake" => "SECRET",
           "ignore" => [
             "example.com"
           ]
@@ -42,7 +42,7 @@ All options except ignore is mandatory, but it's highly suggested that ignore is
 * network => The network "name", the name that is stored for the networks table
 * service => The location to the /image/add script.
 * save_dir => The save location for the images.
-* key => A key to know that it's the correct bot that sends new images to store in the database
+* handshake => A key to know that it's the correct bot that sends new images to store in the database
 * ignore => Sites to ignore, usually a good idea to ignore the your own site
 
 == Notice
