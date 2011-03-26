@@ -21,7 +21,7 @@ module Cinch
 
         URI.extract(message, ["http", "https"]) do |uri|
           next unless valid? uri
-          next if ignore uri
+          next if ignore? uri
           process m.channel, m.prefix, uri
         end
       end
@@ -34,7 +34,7 @@ module Cinch
         return false
       end
       
-      def ignore uri
+      def ignore? uri
         patterns = config["ignore"] || []
         patterns.each { |re| return true if uri =~ /#{re}/i }
         return false
