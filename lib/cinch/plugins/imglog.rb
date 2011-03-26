@@ -40,8 +40,11 @@ module Cinch
         return false
       end
       
-      def remove image
-        FileUtils.remove image if File.exists? image
+      def remove *args
+        args.each do |image|
+          next if image.nil?
+          FileUtils.remove image if File.exists? image
+        end
       end
       
       def process channel, prefix, uri
@@ -106,9 +109,7 @@ module Cinch
           FileUtils.move save_medium, File.join(move_dir, json['medium'])
         end
       rescue StandardError => e
-        remove(save_image) unless save_image.nil?
-        remove(save_thumb) unless save_thumb.nil?
-        remove(save_medium) unless save_medium.nil?
+        remove(save_image, save_thumb, save_medium) 
         @bot.debug "Error with for image #{uri}: #{e}"
       ensure
         remove filename
