@@ -3,6 +3,7 @@
 # Copyright (c) 2011 Victor Bergöö
 # This program is made available under the terms of the MIT License.
 
+require 'CGI'
 require 'cinch'
 require 'curl'
 require 'uri'
@@ -25,8 +26,11 @@ module Cinch
         Dir.mkdir config["save_dir"] unless Dir.exists? config["save_dir"]
 
         URI.extract(message, ["http", "https"]) do |uri|
-          next unless valid? uri
           next if ignore? uri
+          unless valid? uri 
+            uri = oembed(uri)
+            next unless uri
+          end
           process m.channel, m.prefix, uri
         end
       end
@@ -43,6 +47,15 @@ module Cinch
         patterns = config["ignore"] || []
         patterns.each { |re| return true if uri =~ /#{re}/i }
         return false
+      end
+
+      def oembed uri
+        puts config["oembed"] + CGI.escape(uri)
+        curl = Curl::Easy.http_get(config["oembed"] + CGI.escape(uri))
+        json = JSON.parse curl.body_str
+        return nil unless json["succes"] == 'true'
+        return nil unless vaild? json["url"]
+        return json["url"]
       end
       
       def remove *args
