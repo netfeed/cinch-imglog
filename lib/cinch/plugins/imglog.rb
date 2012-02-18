@@ -3,7 +3,7 @@
 # Copyright (c) 2011 Victor Bergöö
 # This program is made available under the terms of the MIT License.
 
-require 'CGI'
+require 'cgi'
 require 'cinch'
 require 'curl'
 require 'uri'
@@ -50,11 +50,10 @@ module Cinch
       end
 
       def oembed uri
-        puts config["oembed"] + CGI.escape(uri)
         curl = Curl::Easy.http_get(config["oembed"] + CGI.escape(uri))
         json = JSON.parse curl.body_str
-        return nil unless json["succes"] == 'true'
-        return nil unless vaild? json["url"]
+        return nil unless json["success"] == 'true'
+        return nil unless valid? json["url"]
         return json["url"]
       end
       
